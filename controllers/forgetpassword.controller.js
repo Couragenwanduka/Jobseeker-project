@@ -13,7 +13,7 @@ export const findUser=async(req,res)=>{
      if(!existingUser){
          return res.status(400).json({message:"User does not exist"});
      }
-     res.redirect('/user/recoverpassword')
+     res.redirect('recoverpassword')
     }catch(error){
         console.log(error);
         return res.status(500).json({ message: "Internal server error" });
@@ -29,10 +29,8 @@ export const forgotPassword= async (req, res) => {
        if(!updatedUser){
            return res.status(400).json({ message:"couldn't update password"});
        }
-       return res.status(200).json(updatedUser);
-
+      res.status(200).json({ message:'Password updated successfully'});
     }catch(error){
-        console.log(error);
         return res.status(500).json({ message: "Internal server error" });
     }
 }
@@ -47,9 +45,8 @@ export const findAdim=async(req,res)=>{
      if(!existingUser){
          return res.status(400).json({message:"User does not exist"});
      }
-     res.redirect('/employer/recoverpassword')
+     res.redirect('adimrecoverpassword')
     }catch(error){
-        console.log(error);
         return res.status(500).json({ message: "Internal server error" });
     }
 }
@@ -63,10 +60,10 @@ export const forgotPasswordAdim= async (req, res) => {
        if(!updatedUser){
            return res.status(400).json({ message:"couldn't update password"});
        }
-       return res.status(200).json(updatedUser);
+       res.status(200).json({ message:'Password updated successfully'});
 
     }catch(error){
-        console.log(error);
+        
         return res.status(500).json({ message: "Internal server error" });
     }
 }

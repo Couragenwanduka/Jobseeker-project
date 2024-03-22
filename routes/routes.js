@@ -55,13 +55,13 @@ router.get('/recoverpassword', (req, res) => {
     res.render('recoverpassword');
 });
 
-router.post('/recoverpassword', forgotPassword);
+router.patch('/recoverpassword', forgotPassword);
 
 router.get('/adimrecoverpassword', (req, res) => {
     res.render('adimrecoverpassword');
 });
 
-router.post('/adimrecoverpassword', forgotPasswordAdim);
+router.patch('/adimrecoverpassword', forgotPasswordAdim);
 
 router.post('/displayJob', verifyUserToken, jobapplication); // Route to handle job applications
 
