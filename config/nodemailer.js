@@ -20,8 +20,8 @@ async function main(employerEmail,jobapplication) {
       from: process.env.smtpUsername, // sender address
       to: employerEmail, // list of receivers
       subject: "hello from Huller", // Subject line
-      text: "Some one applied for your job posting", // plain text body
-      html: jobapplication, // html body
+      text: jobapplication, // plain text body
+      // html: , // html body
     });
 }
 
