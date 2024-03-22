@@ -1,6 +1,6 @@
 import express from 'express';
-import  connectDb  from '../src/config/mongodb.js';
-import router from '../src/routes/routes.js'
+import  connectDb  from './config/mongodb.js';
+import router from './routes/routes.js'
 import dotenv from'dotenv';
 import cookieparser from 'cookie-parser';
 import expresslayout from 'express-ejs-layouts';
