@@ -1,0 +1,84 @@
+.logoimage{
+height: 30px;
+}
+.firstdiv{
+    display: flex;
+    justify-content: space-between;
+    padding-top:30px ;
+}
+.button{
+    color:hsl(321, 100%, 78%);
+    background-color: transparent;
+    border-radius: 20px;
+    border: 1px  hsl(321, 100%, 78%);
+    border-style: groove;
+    padding: 10px 20px 10px 20px;
+}
+.secondDiv{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-top:80px ;
+}
+.welcomehuddle{
+    text-align: center;
+    font-size: 50px;
+}
+.firstparagraphy{
+    inline-size: 500px;
+    text-align: center;
+    overflow-wrap: break-word;
+    margin-left: 30%;
+    margin-top: -20px;
+}
+.getStarted{
+    width: 250px;
+    padding: 10px 40px 10px 40px ;
+    border-radius: 20px;
+    margin-left: 43%;
+    background-color: hsl(322, 100%, 66%);
+    border: 2px solid hsl(322, 100%, 66%);
+    color: white;
+}
+.mockScreen{
+    width: 1000px;
+    height: 700px;
+    margin-left: 15%;
+    margin-top: 40px;
+}
+.thirdDiv{
+    display: flex;
+    justify-content: space-evenly;
+
+    margin-top: 10%;
+}
+.number{
+    font-size: 60px;
+    color: black;
+    font-weight: bold;
+}
+.word{
+    font-weight: 500;
+    color: hsl(210, 40%, 84%);
+}
+.fourthDiv{
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 10%;
+}
+
+.secondmain{
+    width: 500px;
+    height: 500px;
+}
+.secondParagraphy{
+    inline-size: 500px;
+    text-align: center;
+    overflow-wrap: break-word;
+    font-size: 30px;
+    margin-top: -20px;
+}
+a{
+    text-decoration: none;
+    color: hsl(322, 100%, 66%);
+}

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="post-job.css">
+  <title>Post Job</title>
+</head>
+<body>
+  <div class="container">
+    <h1>Post a Job</h1>
+    <form method="post"  id="formData" action="http://localhost:5000/post-job">
+      <label for="title">Job Title</label>
+      <input type="text" name="title" id="title" required>
+      <label for="email">Contact Email</label>
+      <input type="email" name="email" id="email" required>
+      <label for="location">Location</label>
+      <input type="text" name="location" id="location" required>
+      <label for="description">Job Description</label>
+      <textarea name="description" id="description" rows="5" required></textarea>
+      <button type="submit">Post Job</button>
+    </form>
+  </div>
+
+  <div id="message"></div>
+
+  <script src="postjob.js"></script>
+</body>
+</html>

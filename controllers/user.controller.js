@@ -1,109 +1,65 @@
-import {userDbCheck,saveuser} from'../service/user.service.js';
-import {generateOTP,sendVerificationEmail,generateToken,vertifyToken} from '../utils/utils.js';
+import { userValidation, validateLogin, comparePassword } from '../utils/utils.js';
+import { userDbCheck, saveuser} from '../service/user.service.js';
+import jwt from 'jsonwebtoken'
 
-// Endpoint to send OTP verification email
-export const sendOtpVerificationEmail = async (req, res) => {
+// User signup endpoint
+export const signup = async (req, res) => {
+    const { firstname, lastname, email, password,phonenumber} = req.body;
     try {
-        const { email } = req.body;
-        
-        // Validate email
-        if (!email) {
-            return res.status(400).json({ error: "Please fill all the fields" });
-        }
-
-        // Generate OTP and OTP expiry
-        const otpExpiry = new Date();
-        otpExpiry.setMinutes(otpExpiry.getMinutes() + 10);
-        const { otp } = await generateOTP(email);
-
-        // Send verification email
-        await sendVerificationEmail(email, otp);
-
-        // Generate JWT token with OTP and OTP expiry
-        const token = generateToken(email, otp, otpExpiry);
-        
-        // Respond with success message and token
-        res.status(200).json({ message: "Verification email sent.", token });
-    } catch (error) {
-        // Handle errors
-        return res.status(500).json({ error: error.message });
-    }
-}
-
-// Endpoint for user sign-up
-export const userSignUp = async (req, res) => {
-    try {
-        const { email, password, firstname, lastname, gender, phonenumber, otp, token } = req.body;
-
-        // Validate required fields
-        if (!email || !password || !firstname || !lastname || !gender || !phonenumber || !otp || !token) {
-            return res.status(400).json({ error: "Please fill all the fields" });
-        }
-        
-        // Validate phone number format
-        if (!/^\d{11}$/.test(phonenumber)) {
-            return res.status(400).json({ error: "Please enter a valid phone number" });
-        }
-
-        // Validate password length
-        if (password.length < 6) {
-            return res.status(400).json({ error: "Password must be at least 6 characters long" });
-        }
-
         // Check if user already exists
         const existingUser = await userDbCheck(email);
         if (existingUser) {
-            return res.status(400).json({ error: "User already exists" });
+            return res.status(400).json({ message: "Existing user" });
         }
 
-        // Verify the token and get the payload
-        const { otpExpiry } = await vertifyToken(token);
-        const currentTime = new Date();
-
-        // Validate OTP and email
-        if (otp !== vertifyToken.otp) {
-            return res.status(400).json({ error: "Invalid OTP" });
-        }
-        if (email !== vertifyToken.email) {
-            return res.status(400).json({ error: "Invalid email" });
+        // Validate user input
+        const result = userValidation(firstname, lastname, email, password,phonenumber);
+        if (result.error) {
+            return res.status(400).json({ error: result.error, message: result.message });
         }
 
-        // Check if OTP has expired
-        if (currentTime >= new Date(otpExpiry)) {
-            return res.status(400).json({ error: "OTP Expired" });
-        }
-
-        // Save user to database
-        const newUser = await saveuser(email, password, firstname, lastname, gender, phonenumber);
-        
-        // Respond with success message and new user data
-        res.status(200).json({ message: "User signed up successfully. Verification email sent.", newUser });
+        // Save user to the database
+        await saveuser(firstname, lastname, email, password,phonenumber);
+        res.redirect('/signin')
     } catch (error) {
         // Handle errors
-        return res.status(500).json({ error: error.message });
+        console.error('Error occurred during user signup:', error);
+        return res.status(500).json({ error: "An internal server error occurred" });
     }
-}
+};
 
-// Endpoint for user login
-export const login = async (req, res) => {
+// User login endpoint
+export const signin = async (req, res) => {
+    const { email, password } = req.body;
+    console.log(req.body);
     try {
-        const { email, password } = req.body;
-        
-        // Validate email and password
-        if (!email || !password) {
-            res.status(400).json({ message: 'please fill all the fields' });
+        // Validate user input
+        const validation = validateLogin(email, password);
+        if (validation.error) {
+            return res.status(400).json({ error: validation.error, message: validation.message });
         }
-        
-        // Check if user exists and password is correct
-        const existingUser = await userDbCheck(email, password);  
-        if (!existingUser) {
-            res.status(400).json({ message: 'invalid email and password' });
+
+        // Compare provided password with hashed password in the database
+        const loginLogic = await comparePassword(email, password);
+        console.log(loginLogic)
+        if (!loginLogic.loginUser) {
+            return res.status(400).json({ error: loginLogic.error, message: loginLogic.message });
         }
-        
-        // Respond with success message
-        res.status(200).json({ message: 'user successfully logged in' });
+        if (!loginLogic.match) {
+            return res.status(400).json({ message: 'Invalid password' });
+        }
+
+        // Generate JWT token for authentication
+        const loggedInUserEmail = await loginLogic.loginUser.email; // Rename the inner variable
+        const token = jwt.sign({ email: loggedInUserEmail }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        res.cookie('token', token, { httpOnly: true });
+
+        // Respond with successful login message
+        res.redirect('/viewjobs');
+        // return res.status(200).json({ message: 'User successfully logged in', loginUser: loginLogic.loginUser });
     } catch (error) {
         // Handle errors
-        res.status(500).json({ error: error.message });
+        console.error('Error occurred during user login:', error);
+        return res.status(500).json({ error: "An internal server error occurred" });
     }
-}
+};

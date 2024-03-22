@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="employer.css">
+  <title>Employer Signup</title>
+</head>
+<body>
+  <div class="container">
+    <h1>Employer Signup</h1>
+    <form method="post" id="signupForm" action="http://localhost:5000/employer-signup">
+      <label for="name">Name</label>
+      <input type="text" name="name" id="name" required>
+      <label for="email">Email</label>
+      <input type="email" name="email" id="email" required>
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" required>
+      <label for="phonenumber">Phone Number</label>
+      <input type="tel" name="phonenumber" id="phonenumber" required>
+      <label for="companyname">Company Name</label>
+      <input type="text" name="companyname" id="companyname" required>
+      <button type="submit">Sign Up</button>
+      <p>Already have an account? <a href="employer-login">Login</a></p>
+    </form>
+  </div>
+
+  <div id="message"></div>
+
+  <script src="employersignup.js"></script>
+</body>
+</html>

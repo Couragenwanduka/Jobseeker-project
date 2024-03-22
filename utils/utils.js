@@ -1,7 +1,8 @@
 import bcrypt from 'bcryptjs';
 import dotenv from 'dotenv';
-import jwt from 'jsonwebtoken';
-import nodemailer from 'nodemailer';
+import {joiSchema,joiJobSchema,joiUserSchema,joivalidationSchema} from '../config/joi.config.js'
+import  {userDbCheck} from '../service/user.service.js'
+import {employerDbCheck} from '../service/employer.service.js'
 dotenv.config();
 
 // Function to hash the given password using bcrypt
@@ -14,62 +15,99 @@ export const hashPassword = async (password) => {
         console.log(error);
     }
 };
-
-// Transporter configuration for sending emails
-const transport = nodemailer.createTransport({
-    host: process.env.SMTPHOST,
-    port: Number(process.env.SMTPPORT) || 465,
-    secure: true,
-    auth: {
-        user: process.env.SMTPUSERNAME,
-        pass: process.env.SMTPPASSWORD,
-    },
-    tls: {
-        minVersion: 'TLSv1',
-    },
+export const comparePassword =async (email, password)=>{
+    try{
+        const loginUser= await userDbCheck(email);
+      const match = await new Promise((resolve, reject) => {
+        bcrypt.compare(password,loginUser.password,(error,outCome)=>{
+        if(error){
+            reject(error);
+        }else{
+            resolve(outCome);
+        }
+    })
 });
+  return {match , loginUser};
+  }catch(error){
+     throw error;
+  }
+}
 
-// Function to generate a random OTP and associate it with the given email
-export const generateOTP = async (email) => {
-    const otp = Math.floor(Math.random() * 399999 + 300000).toString();
-    return { otp, email };
-};
-
-// Function to send a verification email with the OTP
-export const sendVerificationEmail = async (email, otp) => {
-    try {
-        await transport.sendMail({
-            from: process.env.SMTPUSERNAME,
-            to: email,
-            subject: 'Account Verification',
-            text: `Your OTP for account verification is: ${otp}`,
+export const compareEmployerPassword =async (email, password)=>{
+    try{
+        const loginUser= await employerDbCheck(email);
+      const match = await new Promise((resolve, reject) => {
+        bcrypt.compare(password,loginUser.password,(error,outCome)=>{
+        if(error){
+            reject(error);
+        }else{
+            resolve(outCome);
+        }
+    })
+});
+  return {match , loginUser};
+  }catch(error){
+     throw error;
+  }
+}
+export const validation=(name, email, password, phonenumber, companyname)=>{
+    try{
+        const result = joiSchema.validate({
+            name,
+            email,
+            password,
+            phonenumber,
+            companyname,
+           
         });
-        console.log('Verification email sent successfully!');
-    } catch (error) {
-        console.error('Error sending verification email:', error);
-        throw new Error('Error sending verification email');
+        return result;
+    }catch(error){
+        console.log(error);
+        throw error
     }
-};
-
-// Function to generate a JWT token with the provided payload and expiry time
-export const generateToken = async (email, otp, otpExpiry) => {
-    const payload = {
-        email,
-        otp,
-        otpExpiry,
-    };
-    const token = jwt.sign(payload, process.env.secretKey, { expiresIn: '1h' });
-    return token;
-};
-
-// Function to verify the JWT token and return the decoded payload
-export const vertifyToken = async (token) => {
-    // const token = req.headers.authorization.split(' ')[1]; 
-    try {
-        const decoded = jwt.verify(token, process.env.secretKey);
-        return decoded;
-    } catch (error) {
-        console.error('Error verifying token:', error);
-        throw new Error('Error verifying token');
+}
+export const jobValidation=(title,email,location,description)=>{
+    try{
+        const result =joiJobSchema.validate({
+            email,
+            title,
+            location,
+            description
+           
+        });
+        return result;
+    }catch(error){
+        console.log(error);
+        throw error
     }
-};
+
+}
+export const userValidation=(firstname, lastname, email, password,phonenumber)=>{
+    try{
+        const result =joiUserSchema.validate({
+           firstname,
+            lastname,
+            email,
+            password,
+            phonenumber
+           
+        });
+        return result;
+    }catch(error){
+        console.log(error);
+        throw error
+    }
+}
+
+export const validateLogin=(email, password)=>{
+    try{
+        const result = joivalidationSchema.validate({
+            email,
+            password
+        });
+        return result;
+    }catch(error){
+        console.log(error);
+        throw error
+    }
+}

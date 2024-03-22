@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Job Listings</title>
+</head>
+<body>
+    <h1>Job Listings</h1>
+
+    <div id="jobListings">
+        <!-- Job listings will be dynamically inserted here -->
+    </div>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Job Application Form</h2>
+            <form id="jobApplicationForm">
+                <label>Full Name</label>
+                <input type="text" id="fullname">
+                <label>Email</label>
+                <input type="text" id="email">
+                <label>Phone Number</label>
+                <input type="text" id="phonenumber">
+                <label>Cover letter</label>
+                <textarea id="coverletter"></textarea>
+                <label>Resume</label>
+                <input type="file" id="resume">
+                <button type="submit" id="button">Submit</button>
+                <!-- Form fields here -->
+            </form>
+        </div>
+        <div id="message"></div>
+    </div>
+    
+    <script src="viewjobs.js"></script>
+</body>
+</html>

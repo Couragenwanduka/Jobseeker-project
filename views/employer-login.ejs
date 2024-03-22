@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="employer.css">
+  <title>Employer Login</title>
+</head>
+<body>
+  <div class="container">
+    <h1>Employer Login</h1>
+    <form method="post" id="signupForm" action="http://localhost:5000/employer-login">
+      <label for="email">Email</label>
+      <input type="email" name="email" id="email" required>
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" required>
+      <button type="submit">Login</button>
+      <p>Forgot Password? <a href="adminforgotpassword">Click</a></p>
+    </form>
+  </div>
+
+  <div id="message"></div>
+
+  <script src="employerlogin.js"></script>
+</body>
+</html>

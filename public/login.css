@@ -1,0 +1,69 @@
+/* Body styling */
+body {
+    display: flex;
+    justify-content: center; 
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa; /* Light gray background */
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Heading styling */
+  h1 {
+    margin-top: 80px; /* Adjusted margin top */
+    text-align: center;
+    font: 50px Arial;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+  
+  /* Form styling */
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(0px) !important;
+    background: hsla(322, 100%, 78%, 0.2); /* Adjusted background color */
+    width: 400px; /* Adjusted width */
+    margin-left: 10%;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Soft shadow effect */
+  }
+  
+  /* Label styling */
+  label {
+    font-weight: bold;
+    color: #555; /* Dark gray color */
+  }
+  
+  /* Input styling */
+  input[type="text"],
+  input[type="password"] {
+    width: 100%;
+    padding: 15px 20px; /* Adjusted padding */
+    margin: 10px; /* Adjusted margin */
+    border: 2px solid hsl(205, 86%, 66%); /* Border color */
+    border-radius: 10px;
+    background-color: hsla(205, 86%, 90%, 0.5); /* Input box background color */
+    box-sizing: border-box;
+  }
+  
+  /* Button styling */
+  button[type="submit"] {
+    width: 100%;
+    padding: 15px 20px; /* Adjusted padding */
+    margin: 10px; /* Adjusted margin */
+    font-size: larger;
+    font-weight: bold;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    background-color: hsl(322, 100%, 66%);
+    cursor: pointer;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: hsl(322, 100%, 60%); /* Darker background color on hover */
+  }
+  
