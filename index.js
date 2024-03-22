@@ -12,7 +12,7 @@ connectDb();
 
 const __filename= fileURLToPath(import.meta.url);
 const __dirname= path.dirname(__filename);
-const Port= process.env.PORT ||5000;
+const Port= process.env.PORT ||8000;
 const app = express();
 
 app.use(express.json());
