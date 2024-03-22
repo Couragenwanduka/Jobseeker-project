@@ -21,7 +21,7 @@
 ## Installation
 ### Clone the repository:
 ```bash  ### Copy code
-git clone https://github.com/your-username/huddle-job-application.git
+git clone [https://github.com/your-username/huddle-job-application.git](https://github.com/Couragenwanduka/Jobseeker-project.git)
 ```
 ### Install dependencies:
 ```bash  Copy code
